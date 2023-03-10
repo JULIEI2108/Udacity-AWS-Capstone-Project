@@ -12,7 +12,6 @@ export default function Artwork() {
   const { id } = useParams();
 
   const { personalPhotos } = useArtContext();
-  console.log('personalPhotos from Artwork', personalPhotos)
   return (
     <>
       <Header />
