@@ -1,0 +1,24 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "group",
+  "type": "object",
+  "properties": {
+    "itemname": {
+      "type": "string",
+      "minLength": 3 
+    },
+    "description": {
+      "type": "string",
+      "minLength": 10
+    },   
+     "public": {
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "description",
+    "itemname",
+    "public"
+  ],
+  "additionalProperties": false
+}

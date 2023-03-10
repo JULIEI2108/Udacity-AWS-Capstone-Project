@@ -1,0 +1,266 @@
+
+app: serverless-art-diary-app
+service: serverless-art-diary-app
+
+plugins:
+  - serverless-webpack
+  - serverless-iam-roles-per-function
+  # - serverless-plugin-tracing
+  - serverless-aws-documentation
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  lambdaHashingVersion: '20201221'
+
+  stage: dev
+  region: us-east-1
+
+  tracing:
+    lambda: true
+    apiGateway: true
+
+  environment:
+    ITEMS_TABLE: art-diary-aj2-${self:provider.stage}
+    ITEMS_PUBLIC_INDEX: ifPublicIndex
+    # ITEMS_UPLOAD_AT_INDEX: UploadAtIndex
+    ATTACHMENT_S3_BUCKET: art-diary-images2023-${self:provider.stage}
+    SIGNED_URL_EXPIRATION: 300
+
+
+  logs:
+    # Enable API Gateway logs
+    restApi: true
+
+  iamRoleStatements:
+        - Effect: Allow
+          Action:
+            - xray:PutTelemetryRecords
+            - xray:PutTraceSegments
+          Resource: "*"
+
+
+
+custom:
+  documentation:
+    api: 
+      info:
+        version: v1.0.0
+        title: artDiary
+        description: Serverless application for presenting user's artworks
+    models:
+      - name: createItemRequest
+        contentType: application/json
+        schema: ${file(models/create-item-model.json)}
+      - name: updateItemRequest
+        contentType: application/json
+        schema: ${file(models/update-item-model.json)}
+
+
+functions:
+
+  Auth:
+    handler: src/lambda/auth/auth0Authorizer.handler
+
+  ShowPublicItem:
+    handler: src/lambda/http/showPublicItems.handler
+    events:
+      - http:
+          method: get
+          path: items
+          cors: true
+    iamRoleStatementsInherit: true
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - dynamodb:Query
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.ITEMS_TABLE}
+      - Effect: Allow
+        Action:
+          - dynamodb:Query
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.ITEMS_TABLE}/index/${self:provider.environment.ITEMS_PUBLIC_INDEX}
+
+
+  ManageItems:
+    handler: src/lambda/http/manageItems.handler
+    events:
+      - http:
+          method: get
+          path: manageItems
+          cors: true
+          authorizer: Auth
+    iamRoleStatementsInherit: true
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - dynamodb:Query
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.ITEMS_TABLE}
+
+  # TODO: Configure this function - 
+  # Provide iamRoleStatements property. Decide the Actions and AWS Resource. 
+  # To refer to an AWS resource defined in the "Resources" section, you can use "Resource: !GetAtt <resource-name>.Arn"
+  # To validate incoming HTTP requests, we have provided the request schemas in function definition below. 
+  CreateItem:
+    handler: src/lambda/http/createItem.handler
+    events:
+      - http:
+          method: post
+          path: manageItems
+          cors: true
+          authorizer: Auth
+          request:
+            schema:
+              application/json: ${file(models/create-item-model.json)}
+    iamRoleStatementsInherit: true
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - dynamodb:PutItem
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.ITEMS_TABLE}
+
+
+  # TODO: Configure this function
+  # Provide property for setting up CORS, Authorizer, iamRoleStatements, and request schemas
+  UpdateItem:
+    handler: src/lambda/http/updateItem.handler
+    events:
+      - http:
+          method: patch
+          path: manageItems/{itemId}
+          cors: true
+          authorizer: Auth
+          request:
+            schema:
+              application/json: ${file(models/update-item-model.json)}
+    iamRoleStatementsInherit: true
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - dynamodb:UpdateItem
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.ITEMS_TABLE}
+
+
+
+
+  DeleteItem:
+    handler: src/lambda/http/deleteItem.handler
+    events:
+      - http:
+          method: delete
+          path: manageItems/{itemId}
+          cors: true
+          authorizer: Auth
+    iamRoleStatementsInherit: true
+    iamRoleStatements: 
+      - Effect: Allow
+        Action:
+          - dynamodb:DeleteItem
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.ITEMS_TABLE}
+      - Effect: Allow
+        Action:
+          - s3:DeleteObject
+        Resource: arn:aws:s3:::${self:provider.environment.ATTACHMENT_S3_BUCKET}/*
+
+
+# get s3 upload url to upload file
+
+  GenerateUploadUrl:
+    handler: src/lambda/http/generateUploadUrl.handler
+    events:
+      - http:
+          method: post
+          path: manageItems/{itemId}/attachment
+          cors: true
+          authorizer: Auth
+    iamRoleStatementsInherit: true
+    iamRoleStatementsName: serverless-art-diary-app-s3-upload-role
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - dynamodb:UpdateItem
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.ITEMS_TABLE}
+      - Effect: Allow
+        Action:
+          - s3:PutObject  
+        Resource: arn:aws:s3:::${self:provider.environment.ATTACHMENT_S3_BUCKET}/*
+
+
+resources:
+  Resources:
+  # set default cors response
+    GatewayResponseDefault4XX:
+      Type: 'AWS::ApiGateway::GatewayResponse'
+      Properties:
+        ResponseParameters:
+          gatewayresponse.header.Access-Control-Allow-Origin: "'*'"
+          gatewayresponse.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authrization'"
+          gatewayresponse.header.Access-Control-Allow-Medhods: "'*'"
+        ResponseType: DEFAULT_4XX
+        RestApiId:
+          Ref: ApiGatewayRestApi
+    
+# create dynamodb table
+    ItemsTable:
+      Type: AWS::DynamoDB::Table
+      Properties: 
+        AttributeDefinitions: 
+          - AttributeName: userId
+            AttributeType: S
+          - AttributeName: itemId
+            AttributeType: S
+          - AttributeName: public
+            AttributeType: S
+        KeySchema: 
+          - AttributeName: userId
+            KeyType: HASH
+          - AttributeName: itemId
+            KeyType: RANGE
+        BillingMode: PAY_PER_REQUEST
+        TableName: ${self:provider.environment.ITEMS_TABLE}
+        GlobalSecondaryIndexes:
+          - IndexName: ${self:provider.environment.ITEMS_PUBLIC_INDEX}
+            KeySchema:
+              - AttributeName: public
+                KeyType: HASH
+            Projection:
+              ProjectionType: ALL # What attributes will be copied to an index
+
+
+# setup s3 bucket for image and set it's CORS policy
+    AttachmentsBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: ${self:provider.environment.ATTACHMENT_S3_BUCKET}
+        AccessControl: PublicRead
+        CorsConfiguration:
+          CorsRules:
+            - AllowedHeaders:
+                - '*'
+              AllowedMethods:
+                - GET
+                - PUT
+                - DELETE
+              AllowedOrigins:
+                - '*'
+              ExposedHeaders:
+                - Date
+              Id: myCORSRuleId1
+              MaxAge: 3600
+
+
+    BucketPolicy:
+      Type: AWS::S3::BucketPolicy
+      Properties:
+        PolicyDocument:
+          Id: MyPolicy
+          Version: "2012-10-17"
+          Statement:
+            - Sid: PublicReadForGetBucketObjects
+              Effect: Allow
+              Principal: '*'
+              Action: 
+                - 's3:GetObject'
+                - 's3:PutObject'
+              Resource: 'arn:aws:s3:::${self:provider.environment.ATTACHMENT_S3_BUCKET}/*'
+        Bucket: !Ref AttachmentsBucket
+
