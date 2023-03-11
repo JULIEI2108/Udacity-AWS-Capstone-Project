@@ -15,7 +15,7 @@ export const handler = middy(
     // extract userId from token
     const userId: string = getUserId(event)
     await deleteItem(itemId, userId)
-    
+
     return undefined
   }
 )

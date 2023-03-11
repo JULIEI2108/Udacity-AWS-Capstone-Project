@@ -13,19 +13,19 @@ export const handler = middy(
     const itemId = event.pathParameters.itemId
     const userId: string = getUserId(event)
     const response = await createAttachmentPresignedUrl(itemId, userId)
-    console.log('response handler',response)
+    console.log('response handler', response)
     return {
-        statusCode: 200,
-        body:JSON.stringify({
-          uploadUrl: response
-        })
-      }
+      statusCode: 200,
+      body: JSON.stringify({
+        uploadUrl: response
+      })
+    }
   }
 )
 
-handler  
-    .use(httpErrorHandler())
-    .use(
+handler
+  .use(httpErrorHandler())
+  .use(
     cors({
       credentials: true
     })

@@ -17,11 +17,11 @@ export const handler = middy(
     const userId: string = getUserId(event)
     const updatedItem: UpdateItemRequest = JSON.parse(event.body)
     logger.info("Recieved updateItemRequest", updatedItem)
-    const response = await updateItem(updatedItem, itemId, userId )
+    const response = await updateItem(updatedItem, itemId, userId)
     logger.info(response)
     return undefined
   }
-  
+
 )
 
 handler

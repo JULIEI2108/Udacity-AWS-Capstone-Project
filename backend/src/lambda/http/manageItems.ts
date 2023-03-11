@@ -15,7 +15,7 @@ export const handler = middy(
     const items = await getItemsForUser(userId)
     return {
       statusCode: 200,
-      body:JSON.stringify({
+      body: JSON.stringify({
         items: items
       })
     }

@@ -1,37 +1,36 @@
-import React from "react";
-import styled from "styled-components";
-import { Link } from "react-router-dom";
+import React from 'react'
+import styled from 'styled-components'
+import { Link } from 'react-router-dom'
+import { useArtContext } from '../art_context'
 
-import { useArtContext } from "../art_context";
-
-export default function PhotoWall({ photos, manage }) {
-  const value = useArtContext();
-  const { personalPhotos } = useArtContext();
+export default function PhotoWall ({ photos, manage }) {
+  const value = useArtContext()
+  const { personalPhotos } = useArtContext()
   console.log('personalPhotos from photo wall', personalPhotos)
   return (
     <Wrapper>
-      <div className="section section-center">
-        <div className="photos__box">
+      <div className='section section-center'>
+        <div className='photos__box'>
           {photos.length > 0 &&
-            photos.map((image) => {
+            photos.map(image => {
               return (
-                <div className="photo__box" key={image.itemId}>
+                <div className='photo__box' key={image.itemId}>
                   <img
                     src={image.attachmentUrl}
                     alt={image.itemname}
-                    className="photo"
+                    className='photo'
                   ></img>
-                  <div className="photo__info">
+                  <div className='photo__info'>
                     <span>{image.itemname}</span>
                     <span>{image.artist}</span>
                   </div>
                   {manage && (
-                    <div className="button__box">
+                    <div className='button__box'>
                       <Link to={`/manage/${image.itemId}`}>
-                        <button className="btn">Edit</button>
+                        <button className='btn'>Edit</button>
                       </Link>
                       <button
-                        className="btn"
+                        className='btn'
                         onClick={() => value.deletePhoto(image.itemId)}
                       >
                         Delete
@@ -39,12 +38,12 @@ export default function PhotoWall({ photos, manage }) {
                     </div>
                   )}
                 </div>
-              );
+              )
             })}
         </div>
       </div>
     </Wrapper>
-  );
+  )
 }
 
 const Wrapper = styled.section`
@@ -98,4 +97,4 @@ const Wrapper = styled.section`
       grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     }
   }
-`;
+`
