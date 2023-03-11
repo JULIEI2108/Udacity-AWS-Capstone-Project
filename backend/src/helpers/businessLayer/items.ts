@@ -1,11 +1,11 @@
-import { ItemsAccess } from './itemsAcess'
-import { ArtItem } from '../models/ArtItem'
-import { CreateItemRequest } from '../requests/CreateItemRequest'
+import { ItemsAccess } from '../dataLayer/itemsAcess'
+import { ArtItem } from '../../models/ArtItem'
+import { CreateItemRequest } from '../../requests/CreateItemRequest'
 import * as uuid from 'uuid'
-import { UpdateItemRequest } from '../requests/UpdateItemRequest'
+import { UpdateItemRequest } from '../../requests/UpdateItemRequest'
 // import * as createError from 'http-errors'
-import { createLogger } from '../utils/logger'
-import { ItemUpdate } from '../models/ArtItemUpdate'
+import { createLogger } from '../../utils/logger'
+import { ItemUpdate } from '../../models/ArtItemUpdate'
 const logger = createLogger('todos')
 // TODO: Implement businessLogic
 const itemsAccess = new ItemsAccess()

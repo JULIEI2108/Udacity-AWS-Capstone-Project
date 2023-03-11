@@ -4,7 +4,7 @@ import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda'
 import * as middy from 'middy'
 import { cors } from 'middy/middlewares'
 
-import { getItemsForUser } from '../../helpers/items'
+import { getItemsForUser } from '../../helpers/businessLayer/items'
 import { getUserId } from '../utils';
 // import { createLogger } from '../../utils/logger'
 // const logger = createLogger('manageItems')

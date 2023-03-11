@@ -2,9 +2,9 @@ import * as AWS from 'aws-sdk'
 // import * as AWSXRay from 'aws-xray-sdk'
 import { DocumentClient } from 'aws-sdk/clients/dynamodb'
 // import { Json } from 'aws-sdk/clients/robomaker';
-import { createLogger } from '../utils/logger'
-import { ArtItem } from '../models/ArtItem'
-import { ItemUpdate } from '../models/ArtItemUpdate';
+import { createLogger } from '../../utils/logger'
+import { ArtItem } from '../../models/ArtItem'
+import { ItemUpdate } from '../../models/ArtItemUpdate';
 import {createAttachmentPresignedUrl, deleteItemImage} from './attachmentUtils'
 const AWSXRay = require('aws-xray-sdk')
 const XAWS = AWSXRay.captureAWS(AWS)

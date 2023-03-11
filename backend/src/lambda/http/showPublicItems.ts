@@ -4,7 +4,7 @@ import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda'
 import * as middy from 'middy'
 import { cors } from 'middy/middlewares'
 
-import { getPublicItem  } from '../../helpers/items'
+import { getPublicItem  } from '../../helpers/businessLayer/items'
 import { createLogger } from '../../utils/logger'
 const logger = createLogger('showPublicItems')
 // Get all TODO items for a current user
