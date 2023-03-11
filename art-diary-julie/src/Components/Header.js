@@ -3,7 +3,7 @@ import logo from "../logo.png";
 import styled from "styled-components";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Link } from "react-router-dom";
-
+// component for login and out
 export default function Header() {
   const {
     isAuthenticated,
@@ -43,7 +43,7 @@ export default function Header() {
           <Link to="/manage" className="btn mr">
             Manage My Artworks
           </Link>
-          <span>Welcome, {user.name} !</span>
+          {/* <span>Welcome, {user.name} !</span> */}
           {console.log(user)}
           <button className="btn" onClick={handleLogout}>
             logout

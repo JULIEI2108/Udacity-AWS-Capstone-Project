@@ -1,7 +1,8 @@
 import Axios from "axios";
 import { useAuth0 } from '@auth0/auth0-react';
 const endpoint = process.env.REACT_APP_APIGATEWAY_ENDPOINT;
-
+// export function to interactive with backend
+// function to get access token
 export async function Token(){
   const { getAccessTokenSilently } = useAuth0();
   const token = await getAccessTokenSilently({
@@ -11,8 +12,8 @@ export async function Token(){
   }})
   return token
 }
-// const token=`eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Im5qVlRUT2kyaDI3a0o2ZHh5N3dsbSJ9.eyJpc3MiOiJodHRwczovL2Rldi1kdDV3NzN4cjRlbm5tMG04LnVzLmF1dGgwLmNvbS8iLCJzdWIiOiJnb29nbGUtb2F1dGgyfDExMDAzMzk3NTM0MzgyNjQxMzI4MCIsImF1ZCI6WyJodHRwczovL3JibTd4NWU5Z2wuZXhlY3V0ZS1hcGkudXMtZWFzdC0xLmFtYXpvbmF3cy5jb20vZGV2IiwiaHR0cHM6Ly9kZXYtZHQ1dzczeHI0ZW5ubTBtOC51cy5hdXRoMC5jb20vdXNlcmluZm8iXSwiaWF0IjoxNjc4NDExMzYwLCJleHAiOjE2Nzg0OTc3NjAsImF6cCI6IlIxelhkUnVlb3dVb05pYzZHUHA0SVlqZGVVdFp6ZFNGIiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSBlbWFpbCJ9.pCvBrehn3-de-i9BBf02Rv3A6t2EfHg3pLUIBPuHJw5K1NJZDpLrl97eNsc33hDHXbVteNa0TzqmX7Z0SEdsa8WJ2pwI-hoj18VpJJWJXV6NUsBW4U8ZYAPKWwWs5pXLdorMPkOM_xX6jrU9UI4H9S868Ym6NJPioqpxc--j9nC_htFRkjmApE9utCdWrXem-3aopCphYWvaSurjLEwnusRxXyZfQHfImjz2vXd2YlMblBtjfaP4XNJyI1h5IkAUAzpP-MDI-sYd_3afDNDg2JMXNXSv8CsTeTVIsC53CowgvDTnwbZDdhvCx4zcmxPSB3zoScEybb8sw2IJbpm4Sw`
 
+// get all public item
 export async function PublicItem() {
   try {
     const response = await Axios.get(`${endpoint}/items`);
@@ -23,6 +24,9 @@ export async function PublicItem() {
   }
 }
 
+
+
+// function to deleteItem
 export async function deleteItem(token,itemId) {
   console.log('token',token)
   try {
@@ -37,6 +41,7 @@ export async function deleteItem(token,itemId) {
   }
 }
 
+// function to getItem for the user
 export async function getItem(token) {
   console.log('tokenhaha',token)
   try {
@@ -54,6 +59,7 @@ export async function getItem(token) {
   }
 }
 
+// function to createItem
 export async function createItem(
   token,
   artist,
@@ -94,6 +100,8 @@ export async function createItem(
   }
 }
 
+
+// function to updateItem
 export async function updateItem(
   token,
   itemId,
@@ -123,6 +131,7 @@ export async function updateItem(
   }
 }
 
+// get uploadUrl from backend
 async function getUploadUrl(token,itemId) {
   const response = await Axios.post(
     `${endpoint}/manageItems/${itemId}/attachment`,
@@ -137,6 +146,7 @@ async function getUploadUrl(token,itemId) {
   return response.data.uploadUrl;
 }
 
+// upload image
 async function uploadFile(uploadUrl, file) {
   console.log(uploadUrl, file);
   const headers = {
