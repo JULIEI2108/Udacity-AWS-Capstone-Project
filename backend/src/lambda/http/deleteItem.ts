@@ -1,9 +1,9 @@
-import 'source-map-support/register'
+// lambda function to deleteItem in the database and S3 bucket
 
+import 'source-map-support/register'
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda'
 import * as middy from 'middy'
 import { cors, httpErrorHandler } from 'middy/middlewares'
-
 import { deleteItem } from '../../helpers/businessLayer/items'
 import { getUserId } from '../utils'
 // import { createLogger } from '../../utils/logger'
@@ -12,6 +12,7 @@ export const handler = middy(
   async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
     const itemId = event.pathParameters.itemId
     console.log('info', 'starting to delete item, {itemId}')
+    // extract userId from token
     const userId: string = getUserId(event)
     await deleteItem(itemId, userId)
     

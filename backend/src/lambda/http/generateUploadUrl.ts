@@ -1,9 +1,8 @@
+// lambda function to get uploadurl from s3 bucket
 import 'source-map-support/register'
-
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda'
 import * as middy from 'middy'
 import { cors, httpErrorHandler } from 'middy/middlewares'
-
 import { createAttachmentPresignedUrl } from '../../helpers/businessLayer/items'
 import { getUserId } from '../utils'
 // import { createLogger } from '../../utils/logger'

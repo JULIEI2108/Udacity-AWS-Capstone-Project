@@ -23,7 +23,6 @@ provider:
   environment:
     ITEMS_TABLE: art-diary-aj2-${self:provider.stage}
     ITEMS_PUBLIC_INDEX: ifPublicIndex
-    # ITEMS_UPLOAD_AT_INDEX: UploadAtIndex
     ATTACHMENT_S3_BUCKET: art-diary-images2023-${self:provider.stage}
     SIGNED_URL_EXPIRATION: 300
 
@@ -96,9 +95,8 @@ functions:
           - dynamodb:Query
         Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.ITEMS_TABLE}
 
-  # TODO: Configure this function - 
   # Provide iamRoleStatements property. Decide the Actions and AWS Resource. 
-  # To refer to an AWS resource defined in the "Resources" section, you can use "Resource: !GetAtt <resource-name>.Arn"
+
   # To validate incoming HTTP requests, we have provided the request schemas in function definition below. 
   CreateItem:
     handler: src/lambda/http/createItem.handler
@@ -119,7 +117,6 @@ functions:
         Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.ITEMS_TABLE}
 
 
-  # TODO: Configure this function
   # Provide property for setting up CORS, Authorizer, iamRoleStatements, and request schemas
   UpdateItem:
     handler: src/lambda/http/updateItem.handler
@@ -223,7 +220,8 @@ resources:
               - AttributeName: public
                 KeyType: HASH
             Projection:
-              ProjectionType: ALL # What attributes will be copied to an index
+              ProjectionType: ALL 
+            
 
 
 # setup s3 bucket for image and set it's CORS policy

@@ -1,5 +1,6 @@
-import 'source-map-support/register'
+// lambda function to get update Item
 
+import 'source-map-support/register'
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda'
 import * as middy from 'middy'
 import { cors, httpErrorHandler } from 'middy/middlewares'

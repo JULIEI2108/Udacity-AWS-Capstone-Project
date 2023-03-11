@@ -1,3 +1,5 @@
+// lambda function to creatItem in the database and S3 bucket
+
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda'
 import 'source-map-support/register'
 import * as middy from 'middy'
@@ -7,7 +9,6 @@ import { getUserId } from '../utils';
 import { createItem } from '../../helpers/businessLayer/items'
 import { createLogger } from '../../utils/logger'
 const logger = createLogger('createItem')
-
 export const handler = middy(
   async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
     console.info('Creating Item', event)

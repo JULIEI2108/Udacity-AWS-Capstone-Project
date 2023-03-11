@@ -18,7 +18,7 @@ export async function getItemsForUser (userId): Promise<ArtItem[]> {
 }
 export async function createItem(createItemRequest: CreateItemRequest, userId: string, ): Promise<any> {
     
-    // create itemId, createAT and create ArtItem
+    // create itemId, createAT and create ArtItem and check if public
         const d = new Date()
         const itemId= uuid.v4()
         var ifpublic = 'NO'
