@@ -6,10 +6,15 @@ https://julie-configure.d3pw6ogk003r9g.amplifyapp.com/
 # Frontend
 The art-diary-julie folder contains a web application that allows users to log in to view and manage their artworks. I used Auth0 as the authentication service provider.
 Once backend is deployed .env file need to be updated 
+
 REACT_APP_AUTH0_DOMAIN=<AUTH0 account domain>
+
 REACT_APP_AUTH0_CLIENT_ID=<AUTH0 account client id>
+
 REACT_APP_APIGATEWAY_ENDPOINT=<Backend endpoint>
+
 REACT_APP_FRONTEND_ENDPOINT=<Frontend endpoint>
+
 To run the frontend locally
 ```
 cd art-diary-julie
@@ -56,7 +61,7 @@ apiId = <Api Gateway ID>
 authToken = <AccessToken>
 When you deploy and config frontend correctly and log in through auth0, you can get Access Token in the console.
 
-This is my first readme documentation. If anyone has questions or suggestions, feel free to leave any comments.
-Happy coding!!!
+# This is my first readme documentation. If anyone has questions or suggestions, feel free to leave any comments.
+# Happy coding!!!
 
 
