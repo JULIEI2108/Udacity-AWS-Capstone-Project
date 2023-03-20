@@ -7,13 +7,13 @@ https://julie-configure.d3pw6ogk003r9g.amplifyapp.com/
 The art-diary-julie folder contains a web application that allows users to log in to view and manage their artworks. I used Auth0 as the authentication service provider.
 Once backend is deployed .env file need to be updated 
 
-REACT_APP_AUTH0_DOMAIN=<AUTH0 account domain>
+`REACT_APP_AUTH0_DOMAIN=<AUTH0 account domain>`
 
-REACT_APP_AUTH0_CLIENT_ID=<AUTH0 account client id>
+`REACT_APP_AUTH0_CLIENT_ID=<AUTH0 account client id>`
 
-REACT_APP_APIGATEWAY_ENDPOINT=<Backend endpoint>
+`REACT_APP_APIGATEWAY_ENDPOINT=<Backend endpoint>`
 
-REACT_APP_FRONTEND_ENDPOINT=<Frontend endpoint>
+`REACT_APP_FRONTEND_ENDPOINT=<Frontend endpoint>`
 
 To run the frontend locally
 ```
@@ -52,13 +52,13 @@ once backend is deployed, please update backend endpoint in frontend .env file
 
 An alternative way to test backend API, you can use the Postman collection that contains sample requests. You can find a Postman collection called artdiary Project.postman_collection.json in this project. To import this collection, do the following.
 
-Click on the import button
-Click on the "Choose Files"
-Select a file to import:
-Right click on the imported collection to set variables for the collection:
-Provide variables for the collection
-apiId = <Api Gateway ID>
-authToken = <AccessToken>
+1. Click on the import button
+2. Click on the "Choose Files"
+3. Select a file to import:
+4. Right click on the imported collection to set variables for the collection:
+5. Provide variables for the collection
+    `apiId = <Api Gateway ID>`
+    `authToken = <AccessToken>`
 When you deploy and config frontend correctly and log in through auth0, you can get Access Token in the console.
 
 # This is my first readme documentation. If anyone has questions or suggestions, feel free to leave comments.
