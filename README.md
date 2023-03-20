@@ -26,8 +26,9 @@ cd art-diary-julie
 npm install
 npm run start
 ```
-Please be aware Auth0 doesn't support Authentication from local host. The frontend need to be deployed on internet to be functional. 
-Once deployed please update .env file
+Please be aware that Auth0 does not support authentication from localhost. The frontend needs to be deployed on the internet to be functional. Once deployed, please update the .env file.
+
+We have noticed that the authentication function only works with Google Chrome. This may be due to the fact that we are using the free plan with Auth0 and we haven't set up a domain for the frontend. We will try to work on this in the future. If someone has any suggestions, please leave them in the comments.
 
 
 # Backend
