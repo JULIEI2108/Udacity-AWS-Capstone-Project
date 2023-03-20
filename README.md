@@ -61,7 +61,7 @@ apiId = <Api Gateway ID>
 authToken = <AccessToken>
 When you deploy and config frontend correctly and log in through auth0, you can get Access Token in the console.
 
-# This is my first readme documentation. If anyone has questions or suggestions, feel free to leave any comments.
+# This is my first readme documentation. If anyone has questions or suggestions, feel free to leave comments.
 # Happy coding!!!
 
 
