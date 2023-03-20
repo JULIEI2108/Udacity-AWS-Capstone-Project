@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import { useArtContext } from '../art_context'
 import { updateItem } from '../Api/ItemApi'
 import { useAuth0 } from '@auth0/auth0-react'
+const endpoint = process.env.REACT_APP_APIGATEWAY_ENDPOINT
 
 export default function EditPhoto (itemId) {
   const { getAccessTokenSilently } = useAuth0()
@@ -37,7 +38,7 @@ export default function EditPhoto (itemId) {
   async function handleSubmit (event) {
     const token = await getAccessTokenSilently({
       authorizationParams: {
-        audience: 'https://rbm7x5e9gl.execute-api.us-east-1.amazonaws.com/dev', // Value in Identifier field for the API being called.
+        audience: endpoint, // Value in Identifier field for the API being called.
         scope: 'read:posts' // Scope that exists for the API being called. You can create these through the Auth0 Management API or through the Auth0 Dashboard in the Permissions view of your API.
       }
     })

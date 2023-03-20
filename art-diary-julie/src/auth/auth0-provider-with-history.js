@@ -5,6 +5,8 @@ import { Auth0Provider } from '@auth0/auth0-react'
 const Auth0ProviderWithHistory = ({ children }) => {
   const domain = process.env.REACT_APP_AUTH0_DOMAIN
   const clientId = process.env.REACT_APP_AUTH0_CLIENT_ID
+  const frontendEndpoint = process.env.REACT_APP_FRONTEND_ENDPOINT
+  const endpoint = process.env.REACT_APP_APIGATEWAY_ENDPOINT
 
   const history = useNavigate()
 
@@ -13,7 +15,7 @@ const Auth0ProviderWithHistory = ({ children }) => {
       appState && appState.targetUrl
         ? appState.targetUrl
         : (window.location.href =
-            'https://julie-configure.d3pw6ogk003r9g.amplifyapp.com')
+            frontendEndpoint)
     )
   }
 
@@ -22,8 +24,8 @@ const Auth0ProviderWithHistory = ({ children }) => {
       domain={domain}
       clientId={clientId}
       authorizationParams={{
-        redirect_uri: 'https://julie-configure.d3pw6ogk003r9g.amplifyapp.com',
-        audience: 'https://rbm7x5e9gl.execute-api.us-east-1.amazonaws.com/dev',
+        redirect_uri: frontendEndpoint,
+        audience: endpoint,
         scope: 'read:current_user update:current_user_metadata'
       }}
       onRedirectCallback={onRedirectCallback}
