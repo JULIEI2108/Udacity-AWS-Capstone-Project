@@ -4,6 +4,7 @@ https://julie-configure.d3pw6ogk003r9g.amplifyapp.com/
 
 
 # Frontend
+# The art diary website was developed by Arina_ke and me
 The art-diary-julie folder contains a web application that allows users to log in to view and manage their artworks. I used Auth0 as the authentication service provider.
 Once backend is deployed .env file need to be updated 
 
