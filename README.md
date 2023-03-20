@@ -1,5 +1,9 @@
 # Udacity-AWS-Capstone-Project
+
+
 This is my Udacity Cloud developer Course final project. In this project I developed and deployed a serverless web application. I built serverless REST APIs using API Gateway and AWS Lambda, stored data in AWS DynamoDB and S3, secured my application with authentication, and deployed it to AWS using the Serverless framework. I deployed my frontend using the AWS Amplify service. My project can be viewed at:
+
+
 https://julie-configure.d3pw6ogk003r9g.amplifyapp.com/
 
 
