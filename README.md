@@ -54,7 +54,7 @@ sls deploy
 ```
 once backend is deployed, please update backend endpoint in frontend .env file
 
-# Postman collection
+# Postman collection 
 
 An alternative way to test backend API, you can use the Postman collection that contains sample requests. You can find a Postman collection called artdiary Project.postman_collection.json in this project. To import this collection, do the following.
 
@@ -68,6 +68,8 @@ An alternative way to test backend API, you can use the Postman collection that 
 When you deploy and config frontend correctly and log in through auth0, you can get Access Token in the console.
 
 # This is my first readme documentation. If anyone has questions or suggestions, feel free to leave comments.
+
+
 # Happy coding!!!
 
 
